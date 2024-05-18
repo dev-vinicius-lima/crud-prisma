@@ -1,12 +1,15 @@
 'use client'
+import { updateEmployee } from '@/app/lib/action'
+import { Employee } from '@prisma/client'
+import React from 'react'
 import { useFormState } from 'react-dom'
-import { SaveEmployee } from '../../lib/action'
 
-const CreateEmployeePage = () => {
-  const [state, formAction] = useFormState(SaveEmployee, null)
+export const UpdateForm = ({ employee }: { employee: Employee }) => {
+  const updateEmployeeWithId = updateEmployee.bind(null, employee.id)
+  const [state, formAction] = useFormState(updateEmployeeWithId, null)
   return (
     <div className="max-w-md mx-auto mt-5 flex flex-col items-center justify-center">
-      <h1 className="text-2xl text-center mb-5">ADD New Employee</h1>
+      <h1 className="text-2xl text-center mb-5">Edit Employee</h1>
       <div>
         <form action={formAction}>
           <div className="mb-5">
@@ -22,11 +25,13 @@ const CreateEmployeePage = () => {
               name="name"
               type="text"
               placeholder="Full Name..."
+              defaultValue={employee.name}
             />
             <div id="name-error" aria-live="polite" aria-atomic="true">
               <p className="mt-2 text-sm text-red-500">{state?.Error?.name}</p>
             </div>
           </div>
+
           <div className="mb-5">
             <label
               htmlFor="email"
@@ -40,8 +45,9 @@ const CreateEmployeePage = () => {
               name="email"
               type="email"
               placeholder="Email..."
+              defaultValue={employee.email}
             />
-            <div id="name-error" aria-live="polite" aria-atomic="true">
+            <div id="email-error" aria-live="polite" aria-atomic="true">
               <p className="mt-2 text-sm text-red-500">{state?.Error?.email}</p>
             </div>
           </div>
@@ -58,16 +64,15 @@ const CreateEmployeePage = () => {
               name="phone"
               type="text"
               placeholder="Phone Number..."
+              defaultValue={employee.phone}
             />
-            <div id="name-error" aria-live="polite" aria-atomic="true">
+            <div id="phone-error" aria-live="polite" aria-atomic="true">
               <p className="mt-2 text-sm text-red-500">{state?.Error?.phone}</p>
             </div>
           </div>
-          <button className="btn btn-primary">Save</button>
+          <button className="btn btn-primary">Update</button>
         </form>
       </div>
     </div>
   )
 }
-
-export default CreateEmployeePage

@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Configuração do gerador do cliente Prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Configuração da fonte de dados
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// Modelo de dados para funcionários
+
+model Employee {
+  id        String     @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  CreatedAt DateTime @default(now())  
+  updatedAt DateTime @updatedAt  
+}
